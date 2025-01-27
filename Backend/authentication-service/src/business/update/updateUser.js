@@ -19,11 +19,11 @@ module.exports = async (req, res) => {
     );
 
     if (result.rowCount === 0) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(404).json({ error: 'User not found' });
     }
 
-    res.status(200).json({ message: 'Usuario actualizado', user: result.rows[0] });
+    res.status(200).json({ message: 'Updated user', user: result.rows[0] });
   } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar usuario', details: error.message });
+    res.status(500).json({ error: 'Error updating user', details: error.message });
   }
 };

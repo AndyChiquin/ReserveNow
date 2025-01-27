@@ -16,9 +16,9 @@ const pool = require('./database/db');
 // Probar conexión a la base de datos
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
-    console.error('Error al conectar a la base de datos:', err);
+    console.error('Error connecting to the database:', err);
   } else {
-    console.log('Conexión exitosa a la base de datos. Fecha y hora del servidor:', res.rows[0].now);
+    console.log('Successful database connection. Server date and time:', res.rows[0].now);
   }
 });
 
@@ -33,5 +33,5 @@ app.delete('/auth/users/:id', deleteUser);// Delete user
 
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -5,6 +5,6 @@ module.exports = async (req, res) => {
     const result = await pool.query('SELECT id, name, email, role FROM users');
     res.status(200).json(result.rows);
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener usuarios', details: error.message });
+    res.status(500).json({ error: 'Error getting user', details: error.message });
   }
 };

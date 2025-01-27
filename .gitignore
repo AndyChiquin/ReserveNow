@@ -1,0 +1,35 @@
+Backend/config-service/app/db/__init__.py
+Backend/config-service/app/crud/delete/__init__.py
+Backend/config-service/app/crud/create/__init__.py
+Backend/config-service/app/crud/read/__init__.py
+Backend/config-service/tests/__init__.py
+Backend/config-service/tests/test_read.py
+Backend/config-service/tests/test_delete.py
+Backend/config-service/tests/test_create.py
+# Ignore environment variable file (contains sensitive credentials)
+.env
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ignore IDE-specific folders and files (e.g., VS Code, PyCharm)
+.vscode/
+.idea/
+
+# Ignore log files and temporary files
+*.log
+*.tmp
+
+# Ignore local virtual environment folders
+venv/
+env/
+
+# Ignore Docker-related temporary files
+.dockerignore
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+Backend/config-service/.gitignore

@@ -15,7 +15,6 @@ const modifyReservation = async (req, res) => {
     }
     const existingReservation = reservationResult.rows[0];
 
-/*
     if (userId) {
       try {
         const authResponse = await axios.get(`http://localhost:3000/auth/users/${userId}`);
@@ -30,7 +29,7 @@ const modifyReservation = async (req, res) => {
         return res.status(500).json({ error: 'Error communicating with auth service', details: error.message });
       }
     }
-*/
+
     if (tableId) {
       try {
         const tableResponse = await axios.get(`http://127.0.0.1:8000/tables/${tableId}`);
@@ -77,7 +76,7 @@ const modifyReservation = async (req, res) => {
 
     const updatedReservation = updateResult.rows[0];
 
-     // Actualizar el estado de las mesas
+     // Update the status of the tables
      try {
       if (status === 'CANCELLED') {
         const activeReservationsQuery = `
@@ -86,12 +85,12 @@ const modifyReservation = async (req, res) => {
         `;
         const activeReservationsResult = await pool.query(activeReservationsQuery, [existingReservation.table_id]);
 
-        // Revisar si todas las reservaciones activas son para una fecha distinta a la reservación cancelada
+        // Check if all active reservations are for a different date than the cancelled reservation
         const otherDates = activeReservationsResult.rows.some(
           (reservation) => reservation.reservation_date !== existingReservation.reservation_date
         );
 
-        // Si no hay otras reservaciones activas en fechas diferentes, cambiar a "available"
+        // If there are no other active reservations on different dates, change to “available”.
         if (!otherDates) {
           await axios.put(
             `http://127.0.0.1:8000/tables/${existingReservation.table_id}`,
@@ -104,9 +103,9 @@ const modifyReservation = async (req, res) => {
         }
       }
 
-      // Cambiar mesas si `tableId` cambia
+      // Change tables if `tableId` changes
       if (tableId && tableId !== existingReservation.table_id) {
-        // Liberar la mesa anterior si no hay otras reservaciones activas para ella
+        // Release the previous table if there are no other active reservations for it.
         const activeReservationsForOldTableQuery = `
           SELECT reservation_date FROM reservations
           WHERE table_id = $1 AND status = 'ACTIVE';
@@ -129,7 +128,7 @@ const modifyReservation = async (req, res) => {
         }
 
 
-        // Reservar la nueva mesa
+        // Reserve new table
         await axios.put(
           `http://127.0.0.1:8000/tables/${tableId}`,
           { status: 'reserved' },

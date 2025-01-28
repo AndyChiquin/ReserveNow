@@ -11,12 +11,12 @@ const createReservation = async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Validar el formato de la fecha
+    // Validate the date format
     const parsedDate = parseISO(reservationDate);
     if (!isValid(parsedDate)) {
       return res.status(400).json({ error: 'Invalid date format' });
     }
-/*
+
     try {
       const authResponse = await axios.get(`http://localhost:3000/auth/users/${userId}`);
       if (authResponse.status !== 200) {
@@ -28,7 +28,7 @@ const createReservation = async (req, res) => {
       }
       return res.status(500).json({ error: 'Error communicating with auth service', details: error.message });
     }
-*/
+
     try {
       const tableResponse = await axios.get(`http://127.0.0.1:8000/tables/${tableId}`);
       const tableData = tableResponse.data;
@@ -60,7 +60,7 @@ const createReservation = async (req, res) => {
     `;
     const insertResult = await pool.query(insertQuery, [userId, tableId, reservationDate]);
 
-     // Actualizar el estado de la mesa a "reserved" en `tables-management`
+     // Update the table status to “reserved” in `tables-management`.
      try {
       await axios.put(
         `http://127.0.0.1:8000/tables/${tableId}`,
@@ -69,7 +69,7 @@ const createReservation = async (req, res) => {
       );
     } catch (error) {
       console.error('Error updating table status:', error.message);
-      // Si falla la actualización, la reservación sigue creada, pero se notifica el error
+      // If the update fails, the reservation is still created, but the error is reported.
       return res.status(201).json({
         message: 'Reservation created, but failed to update table status',
         reservation: insertResult.rows[0],

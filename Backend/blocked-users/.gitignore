@@ -1,0 +1,6 @@
+.env
+composer.json
+composer.lock
+vendor/
+blocked_user.db
+instaled.json

@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  authentication-db:
+    image: postgres:latest
+    container_name: authentication-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
   authentication-create:
     build:
       context: .
@@ -9,6 +22,8 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    depends_on:
+      - authentication-db
     restart: always
 
   authentication-read:
@@ -19,6 +34,8 @@ services:
       - "3001:3000"
     env_file:
       - .env
+    depends_on:
+      - authentication-db
     restart: always
 
   authentication-update:
@@ -29,6 +46,8 @@ services:
       - "3002:3000"
     env_file:
       - .env
+    depends_on:
+      - authentication-db
     restart: always
 
   authentication-delete:
@@ -39,6 +58,8 @@ services:
       - "3003:3000"
     env_file:
       - .env
+    depends_on:
+      - authentication-db
     restart: always
 
   authentication-login:
@@ -49,4 +70,9 @@ services:
       - "3004:3000"
     env_file:
       - .env
+    depends_on:
+      - authentication-db
     restart: always
+
+volumes:
+  db_data:

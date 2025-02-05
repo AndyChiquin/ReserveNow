@@ -1,18 +1,66 @@
 version: '3.8'
+
 services:
-  reservation-management:
-    build: .
+  reservation-db:
+    image: postgres:latest
+    container_name: reservation-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "3000:3000"
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  reservation-create:
+    build:
+      context: .
+      dockerfile: src/business/create/Dockerfile
+    ports:
+      - "3101:3000"
     env_file:
       - .env
     depends_on:
-      - db
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: reservation_db
+      - reservation-db
+    restart: always
+
+  reservation-read:
+    build:
+      context: .
+      dockerfile: src/business/read/Dockerfile
     ports:
-      - "5432:5432"
+      - "3102:3000"
+    env_file:
+      - .env
+    depends_on:
+      - reservation-db
+    restart: always
+
+  reservation-update:
+    build:
+      context: .
+      dockerfile: src/business/update/Dockerfile
+    ports:
+      - "3103:3000"
+    env_file:
+      - .env
+    depends_on:
+      - reservation-db
+    restart: always
+
+  reservation-delete:
+    build:
+      context: .
+      dockerfile: src/business/delete/Dockerfile
+    ports:
+      - "3104:3000"
+    env_file:
+      - .env
+    depends_on:
+      - reservation-db
+    restart: always
+
+volumes:
+  db_data:

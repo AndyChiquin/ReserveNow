@@ -1,0 +1,5 @@
+.env
+venv
+requirement.txt
+test_db.py
+_pycache_

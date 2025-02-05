@@ -6,8 +6,8 @@ COPY package.json package-lock.json ./
 
 RUN npm install
 
-COPY . .
+COPY app /src/app
 
 EXPOSE 3000
 
-CMD ["node", "index.js"]
+CMD ["node", "src/business/create/index.js"]

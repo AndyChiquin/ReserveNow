@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const getUsers = require('./getUsers');
 const getUser = require('./getUser');
-const pool = require('../database/db');
+const pool = require('../../database/db');
 
 const app = express();
 app.use(bodyParser.json());

@@ -1,36 +1,47 @@
 version: '3.8'
 
 services:
-  authentication-service:
+  authentication-create:
     build:
-      context: . 
+      context: ./src/business/create
     ports:
-      - "3000:3000" 
+      - "3000:3000"
     env_file:
-      - .env 
-    depends_on:
-      - db 
-    networks:
-      - app-network
+      - .env
+    restart: always
 
-  db:
-    image: postgres:14 
-    container_name: postgres_db
-    restart: always 
-    environment:
-      POSTGRES_USER: ${DB_USER} 
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+  authentication-read:
+    build:
+      context: ./src/business/read
     ports:
-      - "5432:5432" 
-    volumes:
-      - postgres_data:/var/lib/postgresql/data 
-    networks:
-      - app-network
+      - "3001:3000"
+    env_file:
+      - .env
+    restart: always
 
-networks:
-  app-network:
-    driver: bridge
+  authentication-update:
+    build:
+      context: ./src/business/update
+    ports:
+      - "3002:3000"
+    env_file:
+      - .env
+    restart: always
 
-volumes:
-  postgres_data:
+  authentication-delete:
+    build:
+      context: ./src/business/delete
+    ports:
+      - "3003:3000"
+    env_file:
+      - .env
+    restart: always
+
+  authentication-login:
+    build:
+      context: ./src/business/login
+    ports:
+      - "3004:3000"
+    env_file:
+      - .env
+    restart: always

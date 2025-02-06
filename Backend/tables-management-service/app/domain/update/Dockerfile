@@ -1,12 +1,20 @@
+# Usa la imagen base de Python
 FROM python:3.10
 
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-COPY requirements.txt .
+# Copia el archivo de dependencias
+COPY ../../../requirements.txt .
+
+# Instala las dependencias necesarias
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app /app
+# Copia toda la aplicación dentro del contenedor
+COPY ../../../app /app
 
-EXPOSE 8003
+# Expone el puerto que usará el servicio
+EXPOSE 8001
 
-CMD ["uvicorn", "app.domain.update.main:app", "--host", "0.0.0.0", "--port", "8003"]
+# Ejecuta la aplicación
+CMD ["uvicorn", "app.domain.update.main:app", "--host", "0.0.0.0", "--port", "8001"]

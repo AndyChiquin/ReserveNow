@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from app.models.table import Table
 from app.database import get_db
+from app.config.settings import settings
 
 router = APIRouter(prefix="/tables", tags=["Update"])
 

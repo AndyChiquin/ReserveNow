@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.models.table import Table
 from app.database import get_db
+from app.config.settings import settings
 
 router = APIRouter(prefix="/tables", tags=["Read"])
 

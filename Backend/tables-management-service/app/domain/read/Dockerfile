@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia toda la aplicación dentro del contenedor
-COPY ../../../app /app
+COPY . /app
 
 # Expone el puerto que usará el servicio
 EXPOSE 8001

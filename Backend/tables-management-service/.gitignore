@@ -1,5 +1,4 @@
 *.env
-database.py
 __pycache__/
 node_modules/
 *.log

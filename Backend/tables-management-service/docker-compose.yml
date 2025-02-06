@@ -1,59 +1,67 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  create-service:
-    build: ./app/domain/create
-    ports:
-      - "8001:8001"
-    restart: always
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=mysql+pymysql://user:password@db/tables_db
-
-  read-service:
-    build: ./app/domain/read
-    ports:
-      - "8002:8002"
-    restart: always
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=mysql+pymysql://user:password@db/tables_db
-
-  update-service:
-    build: ./app/domain/update
-    ports:
-      - "8003:8003"
-    restart: always
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=mysql+pymysql://user:password@db/tables_db
-
-  delete-service:
-    build: ./app/domain/delete
-    ports:
-      - "8004:8004"
-    restart: always
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=mysql+pymysql://user:password@db/tables_db
-
-  db:
+  tables-db:
     image: mysql:8.0
-    container_name: mysql-db
+    container_name: tables-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: tables_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
+
+  tables-create:
+    build:
+      context: .
+      dockerfile: app/domain/create/Dockerfile
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    depends_on:
+      - tables-db
+    restart: always
+
+  tables-read:
+    build:
+      context: .
+      dockerfile: app/domain/read/Dockerfile
+    ports:
+      - "8002:8002"
+    env_file:
+      - .env
+    depends_on:
+      - tables-db
+    restart: always
+
+  tables-update:
+    build:
+      context: .
+      dockerfile: app/domain/update/Dockerfile
+    ports:
+      - "8003:8003"
+    env_file:
+      - .env
+    depends_on:
+      - tables-db
+    restart: always
+
+  tables-delete:
+    build:
+      context: .
+      dockerfile: app/domain/delete/Dockerfile
+    ports:
+      - "8004:8004"
+    env_file:
+      - .env
+    depends_on:
+      - tables-db
+    restart: always
 
 volumes:
-  mysql_data:
+  db_data:

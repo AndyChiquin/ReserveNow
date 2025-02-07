@@ -8,6 +8,6 @@ RUN npm install
 
 COPY src /app/src
 
-EXPOSE 3104
+EXPOSE 3102
 
 CMD ["node", "src/business/update/index.js"]

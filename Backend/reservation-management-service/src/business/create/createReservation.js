@@ -18,7 +18,7 @@ const createReservation = async (req, res) => {
     }
 
     try {
-      const authResponse = await axios.get(`http://localhost:3000/auth/users/${userId}`);
+      const authResponse = await axios.get(`http://18.205.183.111:3001/auth/users/${userId}`);
       if (authResponse.status !== 200) {
         return res.status(404).json({ error: 'User not found' });
       }
@@ -30,7 +30,7 @@ const createReservation = async (req, res) => {
     }
 
     try {
-      const tableResponse = await axios.get(`http://127.0.0.1:8000/tables/${tableId}`);
+      const tableResponse = await axios.get(`http://52.201.36.3:8001/tables/${tableId}`);
       const tableData = tableResponse.data;
 
       if (tableData.status !== 'available') {
@@ -62,9 +62,8 @@ const createReservation = async (req, res) => {
 
      // Update the table status to “reserved” in `tables-management`.
      try {
-      await axios.put(
-        `http://127.0.0.1:8000/tables/${tableId}`,
-        { status: 'reserved' },
+      await axios.put(`http://52.201.36.3:8002/tables/${tableId}`, {
+        status: 'reserved' },
         { headers: { 'Content-Type': 'application/json' } }
       );
     } catch (error) {

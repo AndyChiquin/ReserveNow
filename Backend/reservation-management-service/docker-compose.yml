@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: src/business/create/Dockerfile
     ports:
-      - "3101:3000"
+      - "3100:3100"
     env_file:
       - .env
     depends_on:
@@ -31,7 +31,7 @@ services:
       context: .
       dockerfile: src/business/read/Dockerfile
     ports:
-      - "3102:3000"
+      - "3101:3101"
     env_file:
       - .env
     depends_on:
@@ -43,7 +43,7 @@ services:
       context: .
       dockerfile: src/business/update/Dockerfile
     ports:
-      - "3103:3000"
+      - "3102:3102"
     env_file:
       - .env
     depends_on:
@@ -55,7 +55,7 @@ services:
       context: .
       dockerfile: src/business/delete/Dockerfile
     ports:
-      - "3104:3000"
+      - "3103:3103"
     env_file:
       - .env
     depends_on:

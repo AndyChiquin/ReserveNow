@@ -24,7 +24,7 @@ const cancelReservation = async (req, res) => {
 
     try {
       await axios.put(
-        `http://127.0.0.1:8000/tables/${reservation.table_id}`,
+        `http://52.201.36.3:8002/tables/${reservation.table_id}`,
         { status: 'available' },
         { headers: { 'Content-Type': 'application/json' } }
       );

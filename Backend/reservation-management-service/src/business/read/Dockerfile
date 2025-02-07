@@ -8,6 +8,6 @@ RUN npm install
 
 COPY src /app/src
 
-EXPOSE 3103
+EXPOSE 3101
 
 CMD ["node", "src/business/read/index.js"]

@@ -8,6 +8,6 @@ RUN npm install
 
 COPY src /app/src
 
-EXPOSE 3102
+EXPOSE 3103
 
 CMD ["node", "src/business/delete/index.js"]

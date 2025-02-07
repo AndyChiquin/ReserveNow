@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # Expone el puerto que usará el servicio
-EXPOSE 8001
+EXPOSE 8000
 
 # Ejecuta la aplicación
 CMD ["uvicorn", "app.domain.create.main:app", "--host", "0.0.0.0", "--port", "8001"]

@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: app/domain/create/Dockerfile
     ports:
-      - "8001:8001"
+      - "8000:8000"
     depends_on:
       - tables-db
     restart: always
@@ -30,7 +30,7 @@ services:
       context: .
       dockerfile: app/domain/read/Dockerfile
     ports:
-      - "8002:8002"
+      - "8001:8001"
     depends_on:
       - tables-db
     restart: always
@@ -40,7 +40,7 @@ services:
       context: .
       dockerfile: app/domain/update/Dockerfile
     ports:
-      - "8003:8003"
+      - "8002:8002"
     depends_on:
       - tables-db
     restart: always
@@ -50,7 +50,7 @@ services:
       context: .
       dockerfile: app/domain/delete/Dockerfile
     ports:
-      - "8004:8004"
+      - "8003:8003"
     depends_on:
       - tables-db
     restart: always

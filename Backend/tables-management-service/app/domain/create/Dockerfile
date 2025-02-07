@@ -17,4 +17,4 @@ COPY . /app
 EXPOSE 8000
 
 # Ejecuta la aplicación
-CMD ["uvicorn", "app.domain.create.main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["uvicorn", "app.domain.create.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -16,4 +16,4 @@ COPY . /app
 EXPOSE 5002
 
 # Command to run the Read service
-CMD ["python", "/app/app/domain/read/main.py"]
+CMD ["python", "/app/domain/read/main.py"]

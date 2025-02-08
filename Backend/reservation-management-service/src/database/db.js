@@ -9,6 +9,8 @@ const pool = new Pool({
   port: process.env.DB_PORT || 5432,
   ssl: {
     rejectUnauthorized: false, 
+    connectionTimeoutMillis: 5000, // 🔹 Reduce tiempo de espera
+
   },
 });
 

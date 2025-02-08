@@ -1,17 +1,20 @@
-# Use Python as base image
-FROM python:3.9
+# Use Python 3.10 as base image
+FROM python:3.10
 
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy all necessary files
-COPY ../../.. /app/
+# Copy only the dependencies file first (for efficient Docker caching)
+COPY requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port for the Read service
-EXPOSE 5004
+# Copy all the remaining project files into the container
+COPY . .
 
-# Command to run the Read service
-CMD ["python", "app/domain/read/read.py"]
+# Expose the port for the service
+EXPOSE 5101
+
+# Command to run the service
+CMD ["python", "-m", "app.domain.read.main"]

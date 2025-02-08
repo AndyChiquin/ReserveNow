@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    networks:
+      - my_network
+
+  employees-create:
+    build:
+      context: .
+      dockerfile: app/domain/create/Dockerfile
+    container_name: employees-create
+    ports:
+      - "${EMPLOYEES_CREATE_PORT}:${EMPLOYEES_CREATE_PORT}"
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    depends_on:
+      - redis
+    networks:
+      - my_network
+
+  employees-read:
+    build:
+      context: .
+      dockerfile: app/domain/read/Dockerfile
+    container_name: employees-read
+    ports:
+      - "${EMPLOYEES_READ_PORT}:${EMPLOYEES_READ_PORT}"
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    depends_on:
+      - redis
+    networks:
+      - my_network
+
+  employees-update:
+    build:
+      context: .
+      dockerfile: app/domain/update/Dockerfile
+    container_name: employees-update
+    ports:
+      - "${EMPLOYEES_UPDATE_PORT}:${EMPLOYEES_UPDATE_PORT}"
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    depends_on:
+      - redis
+    networks:
+      - my_network
+
+  employees-delete:
+    build:
+      context: .
+      dockerfile: app/domain/delete/Dockerfile
+    container_name: employees-delete
+    ports:
+      - "${EMPLOYEES_DELETE_PORT}:${EMPLOYEES_DELETE_PORT}"
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    depends_on:
+      - redis
+    networks:
+      - my_network
+
+networks:
+  my_network:

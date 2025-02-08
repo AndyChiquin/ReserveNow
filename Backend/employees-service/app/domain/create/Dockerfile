@@ -1,16 +1,20 @@
-# Use Python as base image
-FROM python:3.9
+# Use Python 3.10 as base image
+FROM python:3.10
 
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-COPY ../../.. /app/
+# Copy only the dependencies file first (for efficient Docker caching)
+COPY requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port for the Create service
-EXPOSE 5003
+# Copy all the remaining project files into the container
+COPY . .
 
-# Command to run the Create service
-CMD ["python", "app/domain/create/create.py"]
+# Expose the port for the service
+EXPOSE 5100
+
+# Command to run the service
+CMD ["python", "-m", "app.domain.create.main"]

@@ -1,11 +1,23 @@
+import json
+import requests
 from flask import Blueprint, request, jsonify
 from app.database.database import get_redis_connection
-from app.utils.restaurant_service import validar_restaurante
-import json
 
 create_bp = Blueprint("create_employee", __name__)
 redis_client = get_redis_connection()
 VALID_ROLES = {"chef", "waiter", "manager", "cashier"}
+RESTAURANT_SERVICE_URL = "http://44.198.236.2:5002/restaurants"  # Ajusta el puerto si es diferente
+
+def validar_restaurante(restaurant_id):
+    """Check if the restaurant exists in the restaurant service."""
+    try:
+        response = requests.get(f"{RESTAURANT_SERVICE_URL}/{restaurant_id}", timeout=5)
+        if response.status_code == 200:
+            return True
+        return False
+    except requests.RequestException as e:
+        print(f"Error connecting to Restaurant Service: {e}")
+        return False
 
 @create_bp.route("/employees", methods=["POST"])
 def create_employee():
@@ -20,10 +32,10 @@ def create_employee():
         return jsonify({"error": f"The following required fields are missing: {', '.join(missing_fields)}"}), 400
 
     # Individual validations
-    if not isinstance(data["name"], str) or len(data["name"].strip()) == 0:
+    if not isinstance(data["name"], str) or not data["name"].strip():
         return jsonify({"error": "The name is mandatory and must be a valid text."}), 400
 
-    if not isinstance(data["phone"], str) or len(data["phone"].strip()) == 0:
+    if not isinstance(data["phone"], str) or not data["phone"].strip():
         return jsonify({"error": "The phone number is mandatory and must be a valid text."}), 400
 
     if not isinstance(data["email"], str) or "@" not in data["email"]:

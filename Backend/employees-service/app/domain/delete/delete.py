@@ -6,8 +6,13 @@ redis_client = get_redis_connection()
 
 @delete_bp.route("/employees/<int:employee_id>", methods=["DELETE"])
 def delete_employee(employee_id):
-    """Delete a Redis employee by ID”."""
-    if redis_client.exists(f"employee:{employee_id}"):
-        redis_client.delete(f"employee:{employee_id}")
+    """Delete an employee from Redis by ID."""
+    employee_key = f"employee:{employee_id}"
+
+    if redis_client.exists(employee_key):
+        redis_client.delete(employee_key)
+        print(f"Employee {employee_id} successfully deleted")  # Debug log
         return jsonify({"message": "Employee successfully removed"}), 200
+
+    print(f"Employee {employee_id} not found")  # Debug log
     return jsonify({"error": "Employee not found"}), 404

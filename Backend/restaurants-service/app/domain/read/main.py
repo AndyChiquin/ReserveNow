@@ -8,5 +8,5 @@ app = Flask(__name__)
 app.register_blueprint(read_bp)
 
 if __name__ == "__main__":
-    print("✅ Read Service is running on port 5002")
+    print("Read Service is running on port 5002")
     app.run(host="0.0.0.0", port=5002, debug=True)

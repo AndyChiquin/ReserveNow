@@ -8,5 +8,5 @@ app = Flask(__name__)
 app.register_blueprint(delete_bp)
 
 if __name__ == "__main__":
-    print("✅ Delete Service is running on port 5004")
+    print("Delete Service is running on port 5004")
     app.run(host="0.0.0.0", port=5004, debug=True)

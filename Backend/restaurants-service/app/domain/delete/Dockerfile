@@ -17,4 +17,4 @@ COPY . /app
 EXPOSE 5004
 
 # Command to run the Delete service
-CMD ["python", "/app/domain/delete/main.py"]
+CMD ["python", "main.py"]

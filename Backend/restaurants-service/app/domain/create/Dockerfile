@@ -17,4 +17,4 @@ COPY . /app
 EXPOSE 5001
 
 # Command to run the Create service
-CMD ["python", "/app/domain/create/main.py"]
+CMD ["python", "main.py"]

@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  mariadb:
+  restaurants-db:
     image: mariadb:latest
     container_name: restaurants-db
     restart: always
@@ -9,11 +9,11 @@ services:
       MYSQL_DATABASE: restaurants_db
       MYSQL_USER: res_admin
       MYSQL_PASSWORD: maria111
-      MYSQL_ROOT_PASSWORD: maria111
+      MYSQL_ROOT_PASSWORD: rootpassword
     ports:
       - "3306:3306"
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
 
   restaurants-create:
     build:
@@ -22,7 +22,7 @@ services:
     ports:
       - "5001:5001"
     depends_on:
-      - mariadb
+      - restaurants-db
     restart: always
 
   restaurants-read:
@@ -32,7 +32,7 @@ services:
     ports:
       - "5002:5002"
     depends_on:
-      - mariadb
+      - restaurants-db
     restart: always
 
   restaurants-update:
@@ -42,7 +42,7 @@ services:
     ports:
       - "5003:5003"
     depends_on:
-      - mariadb
+      - restaurants-db
     restart: always
 
   restaurants-delete:
@@ -52,8 +52,8 @@ services:
     ports:
       - "5004:5004"
     depends_on:
-      - mariadb
+      - restaurants-db
     restart: always
 
 volumes:
-  mariadb_data:
+  db_data:

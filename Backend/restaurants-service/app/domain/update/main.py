@@ -1,6 +1,5 @@
 from flask import Flask
-from update import update_bp
-from database.database import get_connection
+from app.domain.update.update import update_bp
 
 
 app = Flask(__name__)

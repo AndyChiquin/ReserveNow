@@ -1,6 +1,5 @@
 from flask import Flask
-from create import create_bp
-from database.database import get_connection
+from app.domain.create.create import create_bp
 
 app = Flask(__name__)
 

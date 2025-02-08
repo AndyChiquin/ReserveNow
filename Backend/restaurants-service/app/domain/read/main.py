@@ -1,6 +1,5 @@
 from flask import Flask
-from read import read_bp
-from database.database import get_connection
+from app.domain.read.read import read_bp
 
 
 app = Flask(__name__)

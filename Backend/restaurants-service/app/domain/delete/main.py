@@ -1,6 +1,5 @@
 from flask import Flask
-from delete import delete_bp
-from database.database import get_connection
+from app.domain.delete.delete import delete_bp
 
 
 app = Flask(__name__)

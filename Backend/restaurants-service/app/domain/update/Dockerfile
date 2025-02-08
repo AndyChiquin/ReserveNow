@@ -1,17 +1,20 @@
-# Use a lightweight Python image
-FROM python:3.11
+# Use Python 3.10 as base image
+FROM python:3.10
 
-# Set the working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the service files
-COPY . .
+# Copy only the dependencies file first (for efficient Docker caching)
+COPY ../../../../requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port where Flask will run
-EXPOSE 5000
+# Copy all project files into the container
+COPY ../../.. /app
 
-# Command to run the service
-CMD ["python", "main.py"]
+# Expose the port for the Update service
+EXPOSE 5003
+
+# Command to run the Update service
+CMD ["python", "/app/app/domain/update/main.py"]

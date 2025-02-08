@@ -1,0 +1,59 @@
+# Ignore environment configuration
+.env
+.env.*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs and database files
+logs/
+*.log
+*.sqlite3
+
+# Ignore venv and dependencies
+venv/
+env/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ignore FastAPI specific cache files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Ignore docker build cache
+**/__pycache__/
+.DS_Store
+docker-compose.override.yml
+*.pid
+
+# Ignore Docker containers and volumes
+docker-compose.yml~
+docker-compose.override.yml
+docker-compose-debug.yml
+.dockerignore
+*.log
+*.lock
+*~
+
+# Ignore unnecessary system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore node_modules (if used for frontend)
+node_modules/
+
+# Ignore GitHub Actions workflows temporary files
+.github/workflows/*.bak
+.github/workflows/*.tmp
+
+# Ignore build artifacts
+build/
+dist/
+*.egg-info/

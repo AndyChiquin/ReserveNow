@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5003
 
 # Command to run the Update service
-CMD ["python", "/app/domain/create/main.py"]
+CMD ["python", "domain/update/main.py"]

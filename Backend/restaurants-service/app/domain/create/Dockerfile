@@ -11,10 +11,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy all the remaining project files into the container
-COPY . /app
+COPY . .
 
-# Expose the port for the Create service (Change if needed)
-EXPOSE 5001
+# Expose the port for the service (Change according to the service)
+EXPOSE 5001  
 
-# Command to run the Create service
-CMD ["python", "/app/domain/create/main.py"]
+# Command to run the service
+CMD ["python", "app/domain/create/main.py"]

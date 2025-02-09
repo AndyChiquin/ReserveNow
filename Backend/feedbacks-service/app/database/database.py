@@ -1,26 +1,36 @@
-from motor.motor_asyncio import AsyncIOMotorClient
-import logging
+import pyodbc
 import os
 from dotenv import load_dotenv
 
-# Cargar variables desde .env
+# Cargar variables desde el archivo .env
 load_dotenv()
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://admin:adminpassword@localhost:27017")
-DB_NAME = os.getenv("MONGO_DB", "feedbacks_db")
+DB_SERVER = os.getenv("DB_SERVER")
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_PORT = os.getenv("DB_PORT", "1433")
 
-# Configurar logs
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Mostrar variables para depuración (opcional, puedes comentar estas líneas)
+print(f"📌 Verificación de Variables:")
+print(f"DB_SERVER: {DB_SERVER}")
+print(f"DB_NAME: {DB_NAME}")
+print(f"DB_USER: {DB_USER}")
+print(f"DB_PORT: {DB_PORT}")
 
-try:
-    client = AsyncIOMotorClient(MONGO_URI, serverSelectionTimeoutMS=3000)
-    database = client[DB_NAME]
-    feedbacks_collection = database.get_collection("feedbacks")
-    
-    client.admin.command("ping")
-    logger.info(f" Successfully connected to MongoDB: {MONGO_URI}")
+# Construcción de la cadena de conexión ODBC
+CONNECTION_STRING = f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={DB_SERVER},{DB_PORT};DATABASE={DB_NAME};UID={DB_USER};PWD={DB_PASSWORD}"
 
-except Exception as e:
-    logger.error(f" Failed to connect to MongoDB: {str(e)}")
-    client = None
+def get_connection():
+    """Establece y retorna una conexión a la base de datos."""
+    try:
+        conn = pyodbc.connect(CONNECTION_STRING)
+        print("✅ Conexión exitosa a la base de datos")
+        return conn
+    except Exception as e:
+        print(f"❌ Error al conectar a la base de datos: {e}")
+        return None
+
+# Prueba de conexión si se ejecuta directamente
+if __name__ == "__main__":
+    get_connection()

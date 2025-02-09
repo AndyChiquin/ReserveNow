@@ -1,15 +1,59 @@
-from fastapi import APIRouter, HTTPException
-from app.database.database import feedbacks_collection
-from app.utils.validation import Feedback
-from datetime import datetime
+import sys
+import os
+from flask import Flask, request, jsonify
 
-router = APIRouter()
+# Agregar la ruta base del proyecto para importar módulos correctamente
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-@router.post("/")
-async def create_feedback(feedback: Feedback):
-    new_feedback = feedback.dict()
-    new_feedback["created_at"] = datetime.utcnow()
-    new_feedback["updated_at"] = datetime.utcnow()
-    
-    result = await feedbacks_collection.insert_one(new_feedback)
-    return {"id": str(result.inserted_id), "message": "Feedback created successfully"}
+from database.database import get_connection
+from utils.validators import user_exists, reservation_exists, restaurant_exists
+
+app = Flask(__name__)
+
+@app.route('/', methods=['GET'])
+def home():
+    """Ruta raíz para verificar que el microservicio está activo"""
+    return jsonify({"message": "Microservicio de Feedbacks activo"}), 200
+
+@app.route('/feedbacks', methods=['POST'])
+def create_feedback():
+    """Crea un nuevo feedback después de validar usuario, reserva y restaurante"""
+    data = request.json
+    user_id = data.get('user_id')
+    reservation_id = data.get('reservation_id')
+    restaurant_id = data.get('restaurant_id')
+
+    if not user_id or not reservation_id or not restaurant_id:
+        return jsonify({"error": "user_id, reservation_id y restaurant_id son obligatorios"}), 400
+
+    # 🔹 Validar usuario en el microservicio de autenticación
+    if not user_exists(user_id):
+        return jsonify({"error": "El usuario no existe"}), 400
+
+    # 🔹 Validar reserva en el microservicio de reservas
+    if not reservation_exists(reservation_id):
+        return jsonify({"error": "La reserva no existe"}), 400
+
+    # 🔹 Validar restaurante en el microservicio de restaurantes
+    if not restaurant_exists(restaurant_id):
+        return jsonify({"error": "El restaurante no existe"}), 400
+
+    conn = get_connection()
+    if conn:
+        try:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO feedbacks (user_id, restaurant_id, rating, comment)
+                VALUES (?, ?, ?, ?)
+            """, (user_id, restaurant_id, data['rating'], data.get('comment', '')))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return jsonify({"message": "Feedback creado exitosamente"}), 201
+        except Exception as e:
+            return jsonify({"error": f"Error al insertar feedback: {str(e)}"}), 500
+
+    return jsonify({"error": "Error de conexión con la base de datos"}), 500
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5200, debug=True)

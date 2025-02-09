@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  feedbacks-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: feedbacks-db
+    restart: always
+    environment:
+      SA_PASSWORD: ${DB_PASSWORD}
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - db_data:/var/lib/mssql/data
+
+  feedbacks-create:
+    build:
+      context: .
+      dockerfile: app/domain/create/Dockerfile
+    ports:
+      - "5200:5200"
+    env_file:
+      - .env
+    depends_on:
+      - feedbacks-db
+    restart: always
+
+  feedbacks-read:
+    build:
+      context: .
+      dockerfile: app/domain/read/Dockerfile
+    ports:
+      - "5201:5201"
+    env_file:
+      - .env
+    depends_on:
+      - feedbacks-db
+    restart: always
+
+  feedbacks-update:
+    build:
+      context: .
+      dockerfile: app/domain/update/Dockerfile
+    ports:
+      - "5202:5202"
+    env_file:
+      - .env
+    depends_on:
+      - feedbacks-db
+    restart: always
+
+  feedbacks-delete:
+    build:
+      context: .
+      dockerfile: app/domain/delete/Dockerfile
+    ports:
+      - "5203:5203"
+    env_file:
+      - .env
+    depends_on:
+      - feedbacks-db
+    restart: always
+
+volumes:
+  db_data:

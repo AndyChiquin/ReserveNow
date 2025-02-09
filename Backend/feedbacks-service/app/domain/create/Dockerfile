@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5200
 
 # Comando para ejecutar el servicio
-CMD ["python", "createFeedback.py"]
+CMD ["python", "app/domain/create/createFeedback.py"]

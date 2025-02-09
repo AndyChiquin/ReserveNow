@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5202
 
-CMD ["python", "updateFeedback.py"]
+CMD ["python", "app/domain/update/updateFeedback.py"]

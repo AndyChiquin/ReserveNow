@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5203
 
-CMD ["python", "deleteFeedback.py"]
+CMD ["python", "app/domain/delete/deleteFeedback.py"]

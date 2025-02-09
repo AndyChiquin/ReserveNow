@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5201
 
-CMD ["python", "readFeedback.py"]
+CMD ["python", "app/domain/read/readFeedback.py"]

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  user-crud-create:
+    build: ./user-crud-create
+    ports:
+      - "8006:8006"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+
+  user-crud-read:
+    build: ./user-crud-read
+    ports:
+      - "8007:8007"
+
+  user-crud-update:
+    build: ./user-crud-update
+    ports:
+      - "8008:8008"
+
+  user-crud-delete:
+    build: ./user-crud-delete
+    ports:
+      - "8009:8009"

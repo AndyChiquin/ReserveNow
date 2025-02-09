@@ -1,35 +1,46 @@
-Backend/config-service/app/db/__init__.py
-Backend/config-service/app/crud/delete/__init__.py
-Backend/config-service/app/crud/create/__init__.py
-Backend/config-service/app/crud/read/__init__.py
-Backend/config-service/tests/__init__.py
-Backend/config-service/tests/test_read.py
-Backend/config-service/tests/test_delete.py
-Backend/config-service/tests/test_create.py
-# Ignore environment variable file (contains sensitive credentials)
-.env
-
-# Ignore Python cache files
-__pycache__/
-*.py[cod]
-*.pyo
-
-# Ignore IDE-specific folders and files (e.g., VS Code, PyCharm)
-.vscode/
-.idea/
-
-# Ignore log files and temporary files
+users-service/user-crud-update/go.sum
+users-service/user-crud-update/go.mod
+### ⬇️ Go - Ignore Binaries and Cache ###
+/bin/
+*.exe
+*.dll
+*.so
+*.dylib
+*.out
+*.test
+*.prof
 *.log
-*.tmp
 
-# Ignore local virtual environment folders
-venv/
-env/
+### ⬇️ Go Modules - Ignore Dependencies ###
+/pkg/
+/vendor/
+/go.sum
+/go.mod
 
-# Ignore Docker-related temporary files
-.dockerignore
-
-# Ignore OS-specific files
+### ⬇️ System Temporary Files ###
 .DS_Store
 Thumbs.db
-Backend/config-service/.gitignore
+*.swp
+*.swo
+
+### ⬇️ Local Configuration Files ###
+.env
+.env.local
+.env.production
+.env.development
+config.yaml
+config.json
+
+### ⬇️ IDE and Editor Configuration Files ###
+.vscode/
+.idea/
+*.iml
+
+### ⬇️ Docker Files ###
+docker-compose.override.yml
+users-service/user-crud-create/go.mod
+users-service/user-crud-create/go.sum
+users-service/user-crud-delete/go.sum
+users-service/user-crud-delete/go.mod
+users-service/user-crud-read/go.mod
+users-service/user-crud-read/go.sum

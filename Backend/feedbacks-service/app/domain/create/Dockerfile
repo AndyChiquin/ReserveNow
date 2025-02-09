@@ -5,7 +5,7 @@ FROM python:3.9
 WORKDIR /app
 
 # Copia los archivos necesarios para el microservicio
-COPY ../../../../requirements.txt .
+COPY requirements.txt .
 
 # Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt

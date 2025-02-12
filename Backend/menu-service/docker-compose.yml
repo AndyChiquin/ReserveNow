@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+  create_menu:
+    build:
+      context: .
+      dockerfile: app/domain/create/Dockerfile
+    container_name: create_menu
+    env_file:
+      - .env
+    ports:
+      - "5300:5300"
+    depends_on:
+      - db
+
+  read_menu:
+    build:
+      context: .
+      dockerfile: app/domain/read/Dockerfile
+    container_name: read_menu
+    env_file:
+      - .env
+    ports:
+      - "5301:5301"
+    depends_on:
+      - db
+
+  update_menu:
+    build:
+      context: .
+      dockerfile: app/domain/update/Dockerfile
+    container_name: update_menu
+    env_file:
+      - .env
+    ports:
+      - "5302:5302"
+    depends_on:
+      - db
+
+  delete_menu:
+    build:
+      context: .
+      dockerfile: app/domain/delete/Dockerfile
+    container_name: delete_menu
+    env_file:
+      - .env
+    ports:
+      - "5303:5303"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    container_name: menu_db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

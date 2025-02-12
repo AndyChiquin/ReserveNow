@@ -6,6 +6,7 @@
         <h3>{{ restaurant.name }}</h3>
         <p>{{ restaurant.description }}</p>
         <button @click="selectRestaurant(restaurant.id)">View Menu</button>
+        <button class="profile-btn" @click="goToProfile">Go to Profile</button>
       </div>
     </div>
   </div>
@@ -19,7 +20,7 @@ export default {
   name: "Restaurants",
   setup() {
     const router = useRouter();
-    
+
     const restaurants = ref([
       { id: 1, name: "La Casa del Chef", description: "Fine dining experience with gourmet dishes." },
       { id: 2, name: "Pizzeria Napoli", description: "Authentic Italian pizzas made with fresh ingredients." },
@@ -28,15 +29,33 @@ export default {
 
     const selectRestaurant = (id) => {
       alert(`You selected restaurant ID: ${id}`);
-      // Aquí podrías redirigir a la página del menú del restaurante
     };
 
-    return { restaurants, selectRestaurant };
+    const goToProfile = () => {
+      router.push('/profile'); // Redirige a la página de perfil
+    };
+
+    return { restaurants, selectRestaurant, goToProfile };
   }
 };
 </script>
 
 <style scoped>
+.profile-btn {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.profile-btn:hover {
+  background-color: #e68900;
+}
+
 .restaurants-page {
   text-align: center;
   padding: 20px;

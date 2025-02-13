@@ -74,5 +74,17 @@ services:
       - authentication-db
     restart: always
 
+  authentication-register:
+    build:
+      context: .
+      dockerfile: src/business/register/Dockerfile
+    ports:
+      - "3005:3005"
+    env_file:
+      - .env
+    depends_on:
+      - authentication-db
+    restart: always
+    
 volumes:
   db_data:

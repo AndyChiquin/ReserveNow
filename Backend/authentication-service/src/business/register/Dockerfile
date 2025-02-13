@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copiar archivos al contenedor
 COPY package.json package-lock.json ./
+
 RUN npm install
 
 # Copiar el resto de los archivos

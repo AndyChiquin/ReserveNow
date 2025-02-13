@@ -1,3 +1,4 @@
+require("dotenv").config(); // Cargar las variables de entorno
 const express = require('express');
 const bodyParser = require('body-parser');
 const loginUser = require('./loginUser');

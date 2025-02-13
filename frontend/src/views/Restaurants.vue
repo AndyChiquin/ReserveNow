@@ -2,60 +2,46 @@
   <div class="restaurants-page">
     <h1 class="title">Choose Your Restaurant</h1>
     <div class="restaurant-list">
-      <div v-for="restaurant in restaurants" :key="restaurant.id" class="restaurant-card">
-        <h3>{{ restaurant.name }}</h3>
-        <p>{{ restaurant.description }}</p>
-        <button @click="selectRestaurant(restaurant.id)">View Menu</button>
-        <button class="profile-btn" @click="goToProfile">Go to Profile</button>
+      <div class="restaurant-card">
+        <img :src="fastFoodImage" alt="Fast Food" class="restaurant-image" />
+        <h3>Fast Bites</h3>
+        <p>Delicious fast food with amazing flavors.</p>
+        <button @click="goToFastFood">View Profile</button>
+      </div>
+      <div class="restaurant-card">
+        <img :src="elegantDineImage" alt="Elegant Dining" class="restaurant-image" />
+        <h3>Elegance Dine</h3>
+        <p>Luxury dining experience with gourmet dishes.</p>
+        <button @click="goToElegantDining">View Profile</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+const fastFoodImage = new URL('@/assets/fastfood.jpg', import.meta.url).href;
+const elegantDineImage = new URL('@/assets/images.jpg', import.meta.url).href;
 
 export default {
   name: "Restaurants",
   setup() {
     const router = useRouter();
 
-    const restaurants = ref([
-      { id: 1, name: "La Casa del Chef", description: "Fine dining experience with gourmet dishes." },
-      { id: 2, name: "Pizzeria Napoli", description: "Authentic Italian pizzas made with fresh ingredients." },
-      { id: 3, name: "Sushi Express", description: "Delicious sushi and Japanese cuisine at great prices." }
-    ]);
-
-    const selectRestaurant = (id) => {
-      alert(`You selected restaurant ID: ${id}`);
+    const goToFastFood = () => {
+      router.push('/restaurant-fastfood'); // Redirige a la vista de comida rápida
     };
 
-    const goToProfile = () => {
-      router.push('/profile'); // Redirige a la página de perfil
+    const goToElegantDining = () => {
+      router.push('/restaurant-elegant'); // Redirige a la vista de comida elegante
     };
 
-    return { restaurants, selectRestaurant, goToProfile };
+    return { goToFastFood, goToElegantDining, fastFoodImage, elegantDineImage };
   }
 };
 </script>
 
 <style scoped>
-.profile-btn {
-  margin-top: 10px;
-  padding: 10px;
-  width: 100%;
-  background-color: #ff9800;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.profile-btn:hover {
-  background-color: #e68900;
-}
-
 .restaurants-page {
   text-align: center;
   padding: 20px;
@@ -84,6 +70,13 @@ export default {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 300px;
   text-align: center;
+}
+
+.restaurant-image {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 button {

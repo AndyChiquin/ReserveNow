@@ -2,9 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const loginUser = require('./loginUser');
 const pool = require('../../database/db');
+const cors = require("cors");
+
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());  
+app.use(express.json()); 
 
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {

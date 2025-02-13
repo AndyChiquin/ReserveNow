@@ -16,4 +16,4 @@ COPY src /app/src
 EXPOSE 3005
 
 # Comando para ejecutar la aplicación
-CMD ["node", "src/business/login/index.js"]
+CMD ["node", "src/business/register/index.js"]

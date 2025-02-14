@@ -8,7 +8,7 @@ class Config:
     POSTGRES_USER = os.getenv("POSTGRES_USER")
     POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
     POSTGRES_DB = os.getenv("POSTGRES_DB")
-    POSTGRES_HOST = os.getenv("POSTGRES_HOST")  # Aquí va el endpoint de AWS
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST")  
     POSTGRES_PORT = os.getenv("POSTGRES_PORT")
 
     SQLALCHEMY_DATABASE_URI = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
@@ -16,7 +16,7 @@ class Config:
 
     @staticmethod
     def test_db_connection():
-        """Prueba la conexión con la base de datos en AWS RDS"""
+        """Test the connection to the database in AWS RDS"""
         try:
             conn = psycopg2.connect(
                 dbname=Config.POSTGRES_DB,
@@ -26,8 +26,8 @@ class Config:
                 port=Config.POSTGRES_PORT
             )
             conn.close()
-            print("✅ Conexión a la base de datos AWS RDS establecida correctamente.")
+            print("Connection to the AWS RDS database successfully established.")
         except Exception as e:
-            print(f"❌ Error al conectar con la base de datos AWS RDS: {e}")
+            print(f"Error connecting to AWS RDS database: {e}")
 
 Config.test_db_connection()

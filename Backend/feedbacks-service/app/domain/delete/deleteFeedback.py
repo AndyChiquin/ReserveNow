@@ -2,10 +2,8 @@ import sys
 import os
 from flask import Flask, jsonify
 
-# Agregar la raíz del proyecto al path para evitar errores de importación
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-# Importación corregida
 from database.database import get_connection
 
 app = Flask(__name__)

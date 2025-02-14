@@ -6,7 +6,7 @@ from app.database.database import get_redis_connection
 create_bp = Blueprint("create_employee", __name__)
 redis_client = get_redis_connection()
 VALID_ROLES = {"chef", "waiter", "manager", "cashier"}
-RESTAURANT_SERVICE_URL = "http://44.198.236.2:5002/restaurants"  # Ajusta el puerto si es diferente
+RESTAURANT_SERVICE_URL = "http://44.198.236.2:5002/restaurants" 
 
 def validar_restaurante(restaurant_id):
     """Check if the restaurant exists in the restaurant service."""

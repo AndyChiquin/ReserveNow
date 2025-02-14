@@ -8,7 +8,6 @@ app.config.from_object(Config)
 
 db.init_app(app)
 
-# Registrar solo el Blueprint de "read"
 app.register_blueprint(read_menu_bp)
 
 if __name__ == "__main__":

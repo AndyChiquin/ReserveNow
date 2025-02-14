@@ -10,7 +10,6 @@ RESTAURANT_SERVICE_URL = "http://44.198.236.2:5002/restaurants"
 def create_menu():
     data = request.get_json()
 
-    # Validar que los campos requeridos estén presentes
     required_fields = ['restaurant_id', 'name', 'price']
     for field in required_fields:
         if field not in data:
@@ -18,13 +17,11 @@ def create_menu():
 
     restaurant_id = data['restaurant_id']
 
-    # Verificar si el restaurante existe
     response = requests.get(f"{RESTAURANT_SERVICE_URL}/{restaurant_id}")
 
     if response.status_code != 200:
         return jsonify({"message": "Restaurant not found"}), 404
 
-    # Crear el nuevo menú
     new_menu = Menu(
         restaurant_id=restaurant_id,
         name=data['name'],

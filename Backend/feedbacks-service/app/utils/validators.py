@@ -1,6 +1,5 @@
 import requests
 
-# URLs de los microservicios
 AUTH_USERS_URL = "http://18.205.183.111:3001/users"
 RESERVATIONS_URL = "http://52.3.161.90:3101/reservations"
 RESTAURANTS_URL = "http://44.198.236.2:5002/restaurants"

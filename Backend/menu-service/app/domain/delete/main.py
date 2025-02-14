@@ -8,7 +8,6 @@ app.config.from_object(Config)
 
 db.init_app(app)
 
-# Registrar solo el Blueprint de "delete"
 app.register_blueprint(delete_menu_bp)
 
 if __name__ == "__main__":

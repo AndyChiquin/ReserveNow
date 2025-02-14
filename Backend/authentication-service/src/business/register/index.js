@@ -9,7 +9,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 
-// Probar conexión a la base de datos
 pool.query("SELECT NOW()", (err, res) => {
   if (err) {
     console.error("Error connecting to the database:", err);
@@ -18,7 +17,6 @@ pool.query("SELECT NOW()", (err, res) => {
   }
 });
 
-// Endpoint de registro
 app.post("/auth/register", registerUser);
 
 const PORT = process.env.PORT || 3005;

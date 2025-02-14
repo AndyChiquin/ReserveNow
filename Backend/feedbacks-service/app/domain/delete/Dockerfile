@@ -1,6 +1,5 @@
 FROM python:3.9
 
-# Instala las dependencias del sistema para ODBC y MSSQL
 RUN apt-get update && apt-get install -y \
     unixodbc \
     unixodbc-dev \

@@ -6,7 +6,7 @@ read_menu_bp = Blueprint('read_menu', __name__)
 @read_menu_bp.route('/menu/<int:menu_id>', methods=['GET'])
 def read_menu(menu_id):
     """ Busca un menú por su ID """
-    menu_item = db.session.get(Menu, menu_id)  # Método más eficiente en SQLAlchemy 2.0
+    menu_item = db.session.get(Menu, menu_id)  
     
     if not menu_item:
         return jsonify({"message": "Menu item not found"}), 404
@@ -15,7 +15,7 @@ def read_menu(menu_id):
         "id": menu_item.id,
         "restaurant_id": menu_item.restaurant_id,
         "name": menu_item.name,
-        "price": float(menu_item.price),  # Convertir a float para evitar problemas con JSON
+        "price": float(menu_item.price),  
         "description": menu_item.description
     })
 
@@ -32,7 +32,7 @@ def get_all_menus():
             "id": menu.id,
             "restaurant_id": menu.restaurant_id,
             "name": menu.name,
-            "price": float(menu.price),  # Convertir a float para evitar problemas con JSON
+            "price": float(menu.price),  
             "description": menu.description
         } for menu in menus
     ])

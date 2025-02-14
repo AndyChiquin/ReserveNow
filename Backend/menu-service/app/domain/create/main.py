@@ -8,7 +8,6 @@ app.config.from_object(Config)
 
 db.init_app(app)
 
-# Registrar solo el Blueprint de "create"
 app.register_blueprint(create_menu_bp)
 
 if __name__ == "__main__":

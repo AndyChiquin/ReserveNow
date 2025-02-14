@@ -2,7 +2,6 @@ import sys
 import os
 from flask import Flask, request, jsonify
 
-# Agregar la ruta base del proyecto para importar módulos correctamente
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 from database.database import get_connection
@@ -26,15 +25,12 @@ def create_feedback():
     if not user_id or not reservation_id or not restaurant_id:
         return jsonify({"error": "user_id, reservation_id y restaurant_id son obligatorios"}), 400
 
-    # 🔹 Validar usuario en el microservicio de autenticación
     if not user_exists(user_id):
         return jsonify({"error": "El usuario no existe"}), 400
 
-    # 🔹 Validar reserva en el microservicio de reservas
     if not reservation_exists(reservation_id):
         return jsonify({"error": "La reserva no existe"}), 400
 
-    # 🔹 Validar restaurante en el microservicio de restaurantes
     if not restaurant_exists(restaurant_id):
         return jsonify({"error": "El restaurante no existe"}), 400
 

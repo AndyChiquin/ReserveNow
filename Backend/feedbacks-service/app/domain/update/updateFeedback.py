@@ -2,7 +2,6 @@ import sys
 import os
 from flask import Flask, request, jsonify
 
-# Agregar la raíz del proyecto al path para evitar errores de importación
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 from database.database import get_connection
@@ -26,15 +25,12 @@ def update_feedback(feedback_id):
     if not user_id or not reservation_id or not restaurant_id:
         return jsonify({"error": "user_id, reservation_id y restaurant_id son obligatorios"}), 400
 
-    # Validar usuario
     if not user_exists(user_id):
         return jsonify({"error": "El usuario no existe"}), 400
 
-    # Validar reserva
     if not reservation_exists(reservation_id):
         return jsonify({"error": "La reserva no existe"}), 400
 
-    # Validar restaurante
     if not restaurant_exists(restaurant_id):
         return jsonify({"error": "El restaurante no existe"}), 400
 

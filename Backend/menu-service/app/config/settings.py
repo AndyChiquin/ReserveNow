@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
-# Cargar variables de entorno desde .env
 load_dotenv()
 
 class Config:
@@ -12,7 +11,6 @@ class Config:
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-# Probar la conexión a la base de datos
 try:
     engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
     with engine.connect() as conn:

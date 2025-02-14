@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  schedules-db:
+    image: postgres:13
+    container_name: schedules-db
+    restart: always
+    environment:
+      POSTGRES_DB: schedules_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres999
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  schedules-create:
+    build:
+      context: .
+      dockerfile: app/domain/create/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - schedules-db
+    restart: always
+
+  schedules-read:
+    build:
+      context: .
+      dockerfile: app/domain/read/Dockerfile
+    ports:
+      - "5500:5500"
+    depends_on:
+      - schedules-db
+    restart: always
+
+  schedules-update:
+    build:
+      context: .
+      dockerfile: app/domain/update/Dockerfile
+    ports:
+      - "5502:5502"
+    depends_on:
+      - schedules-db
+    restart: always
+
+  schedules-delete:
+    build:
+      context: .
+      dockerfile: app/domain/delete/Dockerfile
+    ports:
+      - "5503:5503"
+    depends_on:
+      - schedules-db
+    restart: always
+
+volumes:
+  db_data:

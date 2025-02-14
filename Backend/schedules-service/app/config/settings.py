@@ -27,6 +27,6 @@ db = SQLAlchemy(app)
 try:
     with app.app_context():
         db.engine.connect()
-        print("✅ Conexión establecida correctamente a la base de datos.")
+        print(" Conexión establecida correctamente a la base de datos.")
 except Exception as e:
-    print(f"❌ Error al conectar con la base de datos: {e}")
+    print(f"Error al conectar con la base de datos: {e}")

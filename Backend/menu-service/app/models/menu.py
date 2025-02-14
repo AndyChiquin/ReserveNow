@@ -2,17 +2,23 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class Menu(db.Model):
-    __tablename__ = 'menu'
+class Notification(db.Model):
+    __tablename__ = 'Notifications' 
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    restaurant_id = db.Column(db.Integer, nullable=False)
-    name = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    description = db.Column(db.String(255))
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False) 
+    message = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    status = db.Column(db.String(50), nullable=False)
 
-    def __init__(self, restaurant_id, name, price, description):
-        self.restaurant_id = restaurant_id
-        self.name = name
-        self.price = price
-        self.description = description
+   
+    user = db.relationship('User', backref=db.backref('notifications', lazy=True))
+
+    def __init__(self, user_id, message, date, status):
+        self.user_id = user_id
+        self.message = message
+        self.date = date
+        self.status = status
+
+    def __repr__(self):
+        return f'<Notification {self.id} for User {self.user_id}>'

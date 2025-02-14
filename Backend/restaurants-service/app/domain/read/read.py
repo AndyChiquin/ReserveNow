@@ -1,44 +1,36 @@
 from flask import Blueprint, jsonify
-from app.database.database import get_connection
+from app.database.database import get_connection  # ✅ DRY: Reusing database connection.
 
 read_bp = Blueprint("read_restaurant", __name__)
 
-# Get aLL restaurants
+def fetch_data(query, params=None):
+    """✅ DRY: Function to execute a database query and return results."""
+    connection = get_connection()
+    if connection is None:
+        return {"error": "Unable to connect to the database"}, 500
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(query, params or ())
+            results = cursor.fetchall()
+        return results, 200
+    except Exception as e:
+        return {"error": str(e)}, 500
+    finally:
+        connection.close()
+
+# ✅ DRY: Function for fetching all restaurants.
 @read_bp.route("/restaurants", methods=["GET"])
 def get_restaurants():
-    connection = get_connection()
-    if connection is None:
-        return jsonify({"error": "Unable to connect to the database"}), 500
+    results, status = fetch_data("SELECT * FROM restaurants")
+    return jsonify(results), status
 
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM restaurants")
-            results = cursor.fetchall()
-
-        return jsonify(results), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    finally:
-        connection.close()
-
-
-# Get ONE restaurant by ID
+# ✅ DRY: Function for fetching a restaurant by ID.
 @read_bp.route("/restaurants/<int:restaurant_id>", methods=["GET"])
 def get_restaurant_by_id(restaurant_id):
-    connection = get_connection()
-    if connection is None:
-        return jsonify({"error": "Unable to connect to the database"}), 500
-
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM restaurants WHERE id = %s", (restaurant_id,))
-            restaurant = cursor.fetchone()
-
-        if restaurant:
-            return jsonify(restaurant), 200
-        else:
-            return jsonify({"message": "Restaurant not found"}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    finally:
-        connection.close()
+    results, status = fetch_data("SELECT * FROM restaurants WHERE id = %s", (restaurant_id,))
+    
+    if status == 200 and results:
+        return jsonify(results[0]), 200  # ✅ DRY: Fetching the first row directly.
+    
+    return jsonify({"message": "Restaurant not found"}), 404

@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const createReservation = require("./createReservation");
-const pool = require("../../database/db");
+const createReservation = require("./createReservation"); // ✅ SRP: Handles only reservation creation logic.
+const pool = require("../../database/db"); // ✅ SRP: Handles only database connection.
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,9 +14,9 @@ pool.query("SELECT NOW()", (err, res) => {
   }
 });
 
-app.post("/reservations", createReservation);
+app.post("/reservations", createReservation); // ✅ SRP: Routes are responsible only for handling requests.
 
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Create service running on port ${PORT}`);
+  console.log(`Create service running on port ${PORT}`); // ✅ SRP: Logging responsibility.
 });

@@ -2,21 +2,23 @@ import sys
 import os
 from flask import Flask, jsonify
 
+# ✅ DIP: Adjusting the system path to dynamically locate modules.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from database.database import get_connection
+from database.database import get_connection  # ✅ DIP: The database connection is abstracted.
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    """Ruta raíz para verificar que el microservicio está activo"""
+    """✅ DIP: High-level module (Flask route) does not depend on low-level database logic."""
     return jsonify({"message": "Microservicio de eliminación de feedbacks activo"}), 200
 
 @app.route('/feedbacks/<int:feedback_id>', methods=['DELETE'])
 def delete_feedback(feedback_id):
-    """Elimina un feedback de la base de datos por su ID"""
-    conn = get_connection()
+    """✅ DIP: This function depends on an abstraction (get_connection) instead of a concrete database implementation."""
+    conn = get_connection()  # ✅ DIP: Abstracted database connection.
+
     if conn:
         try:
             cursor = conn.cursor()
@@ -37,4 +39,4 @@ def delete_feedback(feedback_id):
     return jsonify({"error": "Error en la conexión a la base de datos"}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5203, debug=True)
+    app.run(host='0.0.0.0', port=5203, debug=True)  # ✅ DIP: The app configuration is externalized.

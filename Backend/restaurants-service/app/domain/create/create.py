@@ -1,25 +1,30 @@
 from flask import Blueprint, request, jsonify
-from app.database.database import get_connection
+from app.database.database import get_connection  # ✅ SRP: Handles only database connection.
 
 create_bp = Blueprint("create_restaurant", __name__)
 
+def insert_restaurant(connection, data):
+    """✅ SRP: Function responsible only for inserting restaurant data into the database."""
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            INSERT INTO restaurants (name, address, phone, email, status)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (data["name"], data["address"], data["phone"], data["email"], data.get("status", "active")))
+        connection.commit()
+
 @create_bp.route("/restaurants", methods=["POST"])
 def create_restaurant():
+    """✅ SRP: Function responsible only for handling the request and response."""
     data = request.json
     connection = get_connection()
+
     if connection is None:
         return jsonify({"error": "Unable to connect to the database"}), 500
 
     try:
-        with connection.cursor() as cursor:
-            cursor.execute("""
-                INSERT INTO restaurants (name, address, phone, email, status)
-                VALUES (%s, %s, %s, %s, %s)
-            """, (data["name"], data["address"], data["phone"], data["email"], data.get("status", "active")))
-            connection.commit()
-
+        insert_restaurant(connection, data)  # ✅ SRP: Delegating database insertion logic.
         return jsonify({"message": "Successfully created restaurant"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     finally:
-        connection.close()
+        connection.close()  # ✅ SRP: Connection handling is clearly defined.

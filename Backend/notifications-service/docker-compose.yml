@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  create-notification:
+    build:
+      context: ./app/domain/create
+    ports:
+      - "5600:5600"
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_ENV=development
+    depends_on:
+      - db
+
+  read-notification:
+    build:
+      context: ./app/domain/read
+    ports:
+      - "5601:5601"
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_ENV=development
+    depends_on:
+      - db
+
+  update-notification:
+    build:
+      context: ./app/domain/update
+    ports:
+      - "5602:5602"
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_ENV=development
+    depends_on:
+      - db
+
+  delete-notification:
+    build:
+      context: ./app/domain/delete
+    ports:
+      - "5603:5603"
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_ENV=development
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql000
+      MYSQL_DATABASE: notifications_db
+      MYSQL_USER: noti_admin
+      MYSQL_PASSWORD: mysql000
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  db-data:
